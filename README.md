@@ -39,7 +39,8 @@ A full-stack, production-ready CRM system built for a Boutique Pilates Studio. T
    git clone [https://github.com/yarinbatat/pilates-crm.git](https://github.com/yarinbatat/pilates-crm.git)
    cd pilates-crm
 
-   Install dependencies:
+
+Install dependencies:
 
 Bash
 npm install
