@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  TRAINER
+  CUSTOMER
+}
+
+enum MembershipType {
+  PUNCH_CARD
+  WEEKLY_LIMITED
+}
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum BookingStatus {
+  BOOKED
+  ATTENDED
+  CANCELLED
+  NO_SHOW
+}
+
+enum ClassCategory {
+  REFORMER
+  MAT_PILATES
+  NUTRITION_CONSULTATION
+  PRIVATE_SESSION
+  OTHER
+}
+
+enum TransactionType {
+  PURCHASE
+  RENEWAL
+  ADJUSTMENT
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  VOIDED
+}
+
+model User {
+  id              String        @id @default(cuid())
+  email           String        @unique
+  passwordHash    String?
+  fullName        String
+  phone           String?
+  dateOfBirth     DateTime?
+  role            UserRole
+  avatarUrl       String?
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  trainerProfile  TrainerProfile?
+  customerProfile CustomerProfile?
+  taughtClasses   StudioClass[] @relation("ClassTrainer")
+  memberships     Membership[]
+  bookings        Booking[]
+  // All transactions processed/created for this user (i.e., Transaction.userId)
+  transactions    Transaction[]
+  // Transactions where this user is the processor/admin/referrer/etc. (i.e., Transaction.processedById)
+  processedTransactions Transaction[] @relation("ProcessedBy")
+}
+
+model TrainerProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  bio          String?
+  specialties  String[]
+  googleEmail  String?
+  calendarId   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CustomerProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  emergencyContact   String?
+  emergencyPhone     String?
+  healthNotes        String?
+  goals              String?
+  preferredTrainerId String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudioClass {
+  id               String      @id @default(cuid())
+  title            String
+  description      String?
+  category         ClassCategory
+  trainerId        String
+  startAt          DateTime
+  endAt            DateTime
+  capacity         Int
+  room             String?
+  waitlistEnabled  Boolean     @default(true)
+  isCancelled      Boolean     @default(false)
+  cancellationNote String?
+  googleEventId    String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  trainer          User        @relation("ClassTrainer", fields: [trainerId], references: [id], onDelete: Restrict)
+  bookings         Booking[]
+
+  @@index([trainerId, startAt])
+  @@index([startAt, endAt])
+}
+
+model Booking {
+  id                     String        @id @default(cuid())
+  userId                 String
+  classId                String
+  membershipId           String?
+  status                 BookingStatus @default(BOOKED)
+  checkInAt              DateTime?
+  canceledAt             DateTime?
+  cancellationReason     String?
+  googleCalendarEventUrl String?
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  user                   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studioClass            StudioClass   @relation(fields: [classId], references: [id], onDelete: Cascade)
+  membership             Membership?   @relation(fields: [membershipId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, classId])
+  @@index([classId, status])
+  @@index([userId, status])
+}
+
+model Membership {
+  id               String           @id @default(cuid())
+  userId           String
+  name             String
+  type             MembershipType
+  status           MembershipStatus @default(ACTIVE)
+  startsAt         DateTime
+  endsAt           DateTime
+  totalCredits     Int?
+  remainingCredits Int?
+  weeklyLimit      Int?
+  priceCents       Int
+  currency         String           @default("USD")
+  notes            String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings         Booking[]
+  transactions     Transaction[]
+
+  @@index([userId, status])
+  @@index([startsAt, endsAt])
+}
+
+model Transaction {
+  id            String            @id @default(cuid())
+  userId        String
+  membershipId  String?
+  type          TransactionType
+  status        TransactionStatus @default(PENDING)
+  amountCents   Int
+  currency      String            @default("USD")
+  externalRef   String?
+  paymentMethod String?
+  processedById String?
+  note          String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  membership    Membership?       @relation(fields: [membershipId], references: [id], onDelete: SetNull)
+  processedBy   User?             @relation("ProcessedBy", fields: [processedById], references: [id], onDelete: SetNull)
+
+  @@index([userId, status, createdAt])
+  @@index([membershipId])
+}
