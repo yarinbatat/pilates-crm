@@ -66,5 +66,8 @@ Deploy to Kubernetes:
 
 Bash
 kubectl apply -f ../kubernetes/
+
+
+
 🧑‍💻 Author
 Yarin Batat IT Professional & Aspiring DevOps Engineer LinkedIn | GitHub
