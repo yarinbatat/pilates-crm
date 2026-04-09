@@ -216,8 +216,7 @@ export default async function CustomerDashboardPage() {
     <main className="min-h-screen bg-gradient-to-b from-[#f6fbf7] via-[#fcfbf8] to-[#fffdf9] p-4 md:p-8">
       <div className="mx-auto w-full max-w-5xl space-y-4">
         <DashboardHeader
-          title="לוח הבקרה שלי"
-          subtitle="סקירה אישית של חברות פעילה והזמנות עתידיות."
+          role="CUSTOMER"
           links={[
             { href: "/customer", label: "לוח בקרה" },
             { href: "/customer/schedule", label: "מערכת שעות" },

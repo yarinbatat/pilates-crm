@@ -42,7 +42,7 @@ export function DashboardHeader({ links, role }: { links: NavLink[], role: 'ADMI
 
         {/* צד שמאל: התנתקות */}
         <form action={logoutAction}>
-          <Button variant="ghost" className="text-[#64756b] hover:text-red-600 hover:bg-red-50">
+          <Button type="submit" className="bg-transparent text-[#64756b] hover:text-red-600 hover:bg-red-50 shadow-none border-none">
             התנתקות
           </Button>
         </form>

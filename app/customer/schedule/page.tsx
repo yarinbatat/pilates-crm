@@ -65,11 +65,11 @@ export default async function CustomerSchedulePage({ searchParams }: Props) {
     <main className="min-h-screen bg-gradient-to-b from-[#f6fbf7] via-[#fcfbf8] to-[#fffdf9] p-4 md:p-8">
       <div className="mx-auto w-full max-w-5xl space-y-4">
         <DashboardHeader
-          title="מערכת שעות"
-          subtitle="צפו בשיעורים הקרובים, הזמינו ובטלו בקלות."
+          role="CUSTOMER"
           links={[
             { href: "/customer", label: "לוח בקרה" },
             { href: "/customer/schedule", label: "מערכת שעות" },
+            { href: "/customer/store", label: "רכישת מנוי 💳" }
           ]}
         />
 

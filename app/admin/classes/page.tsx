@@ -94,8 +94,7 @@ export default async function AdminClassesPage({ searchParams }: Props) {
     <main className="min-h-screen bg-gradient-to-b from-[#f6fbf7] via-[#fcfbf8] to-[#fffdf9] p-4 md:p-8">
       <div className="mx-auto w-full max-w-6xl space-y-4">
         <DashboardHeader
-          title="ניהול מערכת שיעורים"
-          subtitle="יצירה וניהול של שיעורים, קיבולת וסימון נוכחות."
+          role="ADMIN"
           links={[
             { href: "/admin", label: "לוח בקרה" },
             { href: "/admin/classes", label: "ניהול שיעורים" },

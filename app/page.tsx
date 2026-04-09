@@ -21,13 +21,17 @@ export default function LandingPage() {
         </div>
 
         {/* כפתורי כניסה */}
-        <div className="grid grid-cols-1 gap-4 mt-12">
-          <Button asChild className="bg-[#64756b] hover:bg-[#4a5c52] text-white py-6 text-lg rounded-xl">
-            <Link href="/login">התחברות למערכת</Link>
-          </Button>
-          <Button asChild variant="outline" className="border-[#64756b] text-[#64756b] py-6 text-lg rounded-xl hover:bg-[#f3f5f3]">
-            <Link href="/register">הרשמה למתאמנים חדשים</Link>
-          </Button>
+        <div className="flex flex-col gap-4 mt-12 w-full">
+          <Link href="/login" className="w-full">
+            <Button className="w-full bg-[#64756b] hover:bg-[#4a5c52] text-white py-6 text-lg rounded-xl">
+              התחברות למערכת
+            </Button>
+          </Link>
+          <Link href="/register" className="w-full">
+            <Button variant="outline" className="w-full border-[#64756b] text-[#64756b] py-6 text-lg rounded-xl hover:bg-[#f3f5f3]">
+              הרשמה למתאמנים חדשים
+            </Button>
+          </Link>
         </div>
       </div>
 

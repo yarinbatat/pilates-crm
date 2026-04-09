@@ -79,8 +79,7 @@ export default async function AdminDashboardPage() {
     <main className="min-h-screen bg-gradient-to-b from-[#f6fbf7] via-[#fcfbf8] to-[#fffdf9] p-4 md:p-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         <DashboardHeader
-          title="לוח בקרה ניהולי"
-          subtitle="סקירה מהירה על הפעילות השבועית והיומית בסטודיו."
+          role="ADMIN"
           links={[
             { href: "/admin", label: "לוח בקרה" },
             { href: "/admin/classes", label: "ניהול שיעורים" },
