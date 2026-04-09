@@ -1,64 +1,70 @@
-# Lisa Pilates - Studio Management CRM 🧘‍♂️
+# Pilates CRM & Management System
 
-A full-stack, production-ready CRM system built for a Boutique Pilates Studio. This project demonstrates a modern web architecture with a focus on business logic, localization (RTL), and automated infrastructure.
+A professional Full-stack CRM system designed for Pilates studios, featuring class scheduling, student management, and automated workflows. This project serves as a comprehensive demonstration of Modern DevOps practices, Cloud Infrastructure, and Scalable Web Architecture.
 
-## 🚀 Tech Stack
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Database:** PostgreSQL (Hosted on Supabase)
-- **ORM:** Prisma v7
-- **Authentication:** Supabase Auth (Server-side & Middleware)
-- **UI & Styling:** Tailwind CSS, shadcn/ui, Lucide Icons
-- **Localization:** Full Hebrew (RTL) support with Jerusalem Timezone logic
+## 🚀 DevOps & Infrastructure Stack
 
-## ✨ Key Features
+This project is built with a "Production-First" mindset, utilizing industry-standard tools:
 
-### For Customers
-- **Personal Dashboard:** View active memberships, remaining credits, and upcoming classes.
-- **Class Booking:** Real-time booking system with credit validation.
-- **Membership Management:** Supports both "Punch Cards" (Credits) and "Weekly Limited" plans.
-- **Cancelation Logic:** Easy one-click cancelation with automatic credit refund.
+* **Infrastructure as Code (IaC):** Terraform (Azure provider)
+* **Orchestration:** Kubernetes (Azure AKS)
+* **Containerization:** Docker & Docker Compose
+* **CI/CD Pipeline:** GitHub Actions (Planned)
+* **Database:** PostgreSQL with Prisma ORM
+* **Cloud Provider:** Microsoft Azure
 
-### For Admins (Studio Manager)
-- **Dashboard Analytics:** Real-time stats on active users, today's classes, and weekly bookings.
-- **Class Management:** Create and schedule classes (Reformer, Mat, etc.) with capacity limits.
-- **Attendance Tracking:** Check-in system to mark students as "Attended" or "No-show".
-- **Trainer Views:** Filter schedule and attendance by specific trainers.
+## 🏗 Architecture Overview
 
-## 🛠 DevOps & Architecture Highlights
-- **Schema Management:** Complex relational database schema using Prisma with custom migrations.
-- **Environment Parity:** Strict environment variable management via `.env.local`.
-- **Data Seeding:** Automated scripts to populate the environment with demo trainers, classes, and users.
-- **Timezone Safety:** All scheduling logic is handled via `Asia/Jerusalem` UTC offsets to prevent server-client mismatches.
-- **Docker Ready:** Includes a multi-stage `Dockerfile` for optimized container deployment.
+The application is containerized and designed to run in a distributed environment:
+1.  **Frontend/Backend:** Next.js application running in Docker.
+2.  **Database:** Managed PostgreSQL (or containerized for Dev).
+3.  **State Management:** Prisma ORM for schema migrations and type-safety.
 
-## 🏁 Getting Started
+## 📂 Project Structure
 
-1. **Clone the repo:**
-   ```bash
-   git clone [https://github.com/yarinbatat/pilates-crm.git](https://github.com/yarinbatat/pilates-crm.git)
-   cd pilates-crm
+```text
+├── terraform/          # Azure Infrastructure (AKS, ACR, Networking)
+├── kubernetes/         # K8s Manifests (Deployments, Services, Secrets)
+├── prisma/             # Database Schema & Migrations
+├── src/                # Next.js Application Code
+├── Dockerfile          # Multi-stage production build
+└── docker-compose.yml  # Local development environment
 
+🛠 Getting Started (Development)
+To run this project locally using Docker Compose:
 
-Install dependencies:
+Clone the repository:
 
 Bash
-npm install
+git clone [https://github.com/your-username/pilates-crm.git](https://github.com/your-username/pilates-crm.git)
+cd pilates-crm
 Environment Setup:
-Create a .env.local file based on .env.example with your Supabase and Postgres credentials.
+Create a .env file and configure your DATABASE_URL.
 
-Sync Database:
-
-Bash
-npx prisma db push
-Seed Demo Data:
+Spin up the environment:
 
 Bash
-npm run db:seed -- --email=your-email@example.com
-Run Development Server:
+docker-compose up -d
+Sync Database Schema:
 
 Bash
-npm run dev
+docker exec -it pilates-app npx prisma db push
+☁️ Cloud Deployment (Production-Ready)
+The infrastructure is fully defined using Terraform. To deploy to Azure:
 
+Initialize Terraform:
 
-Created by Yarin Batat
+Bash
+cd terraform
+terraform init
+Plan and Apply:
+
+Bash
+terraform plan
+terraform apply
+Deploy to Kubernetes:
+
+Bash
+kubectl apply -f ../kubernetes/
+🧑‍💻 Author
+Yarin Batat IT Professional & Aspiring DevOps Engineer LinkedIn | GitHub
